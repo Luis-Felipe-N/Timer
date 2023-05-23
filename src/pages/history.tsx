@@ -1,17 +1,17 @@
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.scss'
+import styles from '@/styles/History.module.scss'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home() {
+export default function History() {
   return (
     <>
       <Head>
-        <title>Timer :: Home</title>
+        <title>Create Next App</title>
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
-        <h1>Home</h1>
+        <h1>History</h1>
       </main>
     </>
   )
