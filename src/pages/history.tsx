@@ -10,8 +10,65 @@ export default function History() {
       <Head>
         <title>Create Next App</title>
       </Head>
-      <main className={`${styles.main} ${inter.className}`}>
-        <h1>History</h1>
+      <main className={`${styles.history} ${inter.className}`}>
+        <h1>Meu histórico</h1>
+
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th>Tarefa</th>
+                <th>Duração</th>
+                <th>Inicio</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Conserto de débitos técnicos</td>
+                <td>25 minutos</td>
+                <td>Ha cerca de 2 horas</td>
+                <td>Em andamento</td>
+              </tr>
+              <tr>
+                <td>Conserto de débitos técnicos</td>
+                <td>25 minutos</td>
+                <td>Ha cerca de 2 horas</td>
+                <td>Em andamento</td>
+              </tr><tr>
+                <td>Conserto de débitos técnicos</td>
+                <td>25 minutos</td>
+                <td>Ha cerca de 2 horas</td>
+                <td>Em andamento</td>
+              </tr><tr>
+                <td>Conserto de débitos técnicos</td>
+                <td>25 minutos</td>
+                <td>Ha cerca de 2 horas</td>
+                <td>Em andamento</td>
+              </tr><tr>
+                <td>Conserto de débitos técnicos</td>
+                <td>25 minutos</td>
+                <td>Ha cerca de 2 horas</td>
+                <td>Em andamento</td>
+              </tr><tr>
+                <td>Conserto de débitos técnicos</td>
+                <td>25 minutos</td>
+                <td>Ha cerca de 2 horas</td>
+                <td>Em andamento</td>
+              </tr><tr>
+                <td>Conserto de débitos técnicos</td>
+                <td>25 minutos</td>
+                <td>Ha cerca de 2 horas</td>
+                <td>Em andamento</td>
+              </tr><tr>
+                <td>Conserto de débitos técnicos</td>
+                <td>25 minutos</td>
+                <td>Ha cerca de 2 horas</td>
+                <td>Em andamento</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </main>
     </>
   )
