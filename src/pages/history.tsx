@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/History.module.scss'
+import { StatusColors } from '@/components/History/StatusColors'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -28,9 +29,48 @@ export default function History() {
                 <td>Conserto de débitos técnicos</td>
                 <td>25 minutos</td>
                 <td>Ha cerca de 2 horas</td>
-                <td>Em andamento</td>
+                <td>
+                  <StatusColors color='yellow'>
+                    Em andamento
+                  </StatusColors>
+                </td>
               </tr>
               <tr>
+                <td>Conserto de débitos técnicos</td>
+                <td>25 minutos</td>
+                <td>Ha cerca de 2 horas</td>
+                <td><span>Em andamento</span></td>
+              </tr><tr>
+                <td>Conserto de débitos técnicos</td>
+                <td>25 minutos</td>
+                <td>Ha cerca de 2 horas</td>
+                <td><span>Em andamento</span></td>
+              </tr><tr>
+                <td>Conserto de débitos técnicos</td>
+                <td>25 minutos</td>
+                <td>Ha cerca de 2 horas</td>
+                <td><span>Em andamento</span></td>
+              </tr><tr>
+                <td>Conserto de débitos técnicos</td>
+                <td>25 minutos</td>
+                <td>Ha cerca de 2 horas</td>
+                <td><span>Em andamento</span></td>
+              </tr><tr>
+                <td>Conserto de débitos técnicos</td>
+                <td>25 minutos</td>
+                <td>Ha cerca de 2 horas</td>
+                <td>Em andamento</td>
+              </tr><tr>
+                <td>Conserto de débitos técnicos</td>
+                <td>25 minutos</td>
+                <td>Ha cerca de 2 horas</td>
+                <td>Em andamento</td>
+              </tr><tr>
+                <td>Conserto de débitos técnicos</td>
+                <td>25 minutos</td>
+                <td>Ha cerca de 2 horas</td>
+                <td>Em andamento</td>
+              </tr><tr>
                 <td>Conserto de débitos técnicos</td>
                 <td>25 minutos</td>
                 <td>Ha cerca de 2 horas</td>
