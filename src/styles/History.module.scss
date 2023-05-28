@@ -53,13 +53,14 @@
                 gap: .5rem;
             }
             
-            span::before {
+            span > span {
                 content: '';
                 width: .5rem;
                 height: .5rem;
-                background-color: yellow;
+                background-color: inherit;
                 border-radius: 100%;
             }
+
         }
     }
 

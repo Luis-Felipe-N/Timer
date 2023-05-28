@@ -30,7 +30,7 @@ export default function History() {
                 <td>25 minutos</td>
                 <td>Ha cerca de 2 horas</td>
                 <td>
-                  <StatusColors color='yellow'>
+                  <StatusColors color='green'>
                     Em andamento
                   </StatusColors>
                 </td>
@@ -39,27 +39,47 @@ export default function History() {
                 <td>Conserto de débitos técnicos</td>
                 <td>25 minutos</td>
                 <td>Ha cerca de 2 horas</td>
-                <td><span>Em andamento</span></td>
+                <td>
+                  <StatusColors color='green'>
+                    Em andamento
+                  </StatusColors>
+                </td>
               </tr><tr>
                 <td>Conserto de débitos técnicos</td>
                 <td>25 minutos</td>
                 <td>Ha cerca de 2 horas</td>
-                <td><span>Em andamento</span></td>
+                <td>
+                  <StatusColors color='red'>
+                    Em andamento
+                  </StatusColors>
+                </td>
               </tr><tr>
                 <td>Conserto de débitos técnicos</td>
                 <td>25 minutos</td>
                 <td>Ha cerca de 2 horas</td>
-                <td><span>Em andamento</span></td>
+                <td>
+                  <StatusColors color='red'>
+                    Em andamento
+                  </StatusColors>
+                </td>
               </tr><tr>
                 <td>Conserto de débitos técnicos</td>
                 <td>25 minutos</td>
                 <td>Ha cerca de 2 horas</td>
-                <td><span>Em andamento</span></td>
+                <td>
+                  <StatusColors color='red'>
+                    Em andamento
+                  </StatusColors>
+                </td>
               </tr><tr>
                 <td>Conserto de débitos técnicos</td>
                 <td>25 minutos</td>
                 <td>Ha cerca de 2 horas</td>
-                <td>Em andamento</td>
+                <td>
+                  <StatusColors color='yellow'>
+                    Em andamento
+                  </StatusColors>
+                </td>
               </tr><tr>
                 <td>Conserto de débitos técnicos</td>
                 <td>25 minutos</td>

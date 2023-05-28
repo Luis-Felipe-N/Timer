@@ -32,12 +32,15 @@
       font-size: 1.25rem;
       outline: 0;
       transition: .2s;
+      color: var(--gray-100);
+
 
       &:focus {
         border-color: var(--primary-500);
       }
 
       &::placeholder {
+        
         color: var(--gray-500);
       }
 
@@ -52,6 +55,8 @@
   }
 
   &__countdown {
+    font-family: var(--font-secondary);
+    font-weight: 700;
     font-size: 10rem;
     line-height: 8rem;
     
@@ -61,7 +66,7 @@
     color: var(--gray-50);
 
     span {
-      background-color: var(--gray-800);
+      background-color: var(--gray-700);
       padding: 2rem 1rem;
       border-radius: 8px;
     }
@@ -97,11 +102,12 @@
 
     transition: .2s;
 
-    :disabled {
+    &:disabled {
+      cursor: not-allowed;
       filter: brightness(.7);
     }
 
-    :not(:disabled):hover {
+    &:not(:disabled):hover {
       background-color: var(--primary-700);
     }
   }
