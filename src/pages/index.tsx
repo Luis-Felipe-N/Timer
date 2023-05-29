@@ -27,14 +27,19 @@ export default function Home() {
   const [activeCycleId, setActiveCycleId] = useState<string | null>()
   const [amountSecondsPassed, setAmountSecondsPassed] = useState(0)
 
-  const activeCycle = cycles.find(cycle => cycle.id === activeCycleId)
+  const activeCycle = cycles.find(cycle => cycle.id === activeCycleId)  
 
   useEffect(() => {
-    console.log(activeCycle)
+    let interval: ReturnType<typeof setInterval>;
+
     if (activeCycle) {
-      setInterval(() => {
+      interval = setInterval(() => {
         setAmountSecondsPassed(differenceInSeconds(new Date(), activeCycle.startDate))
       }, 1000)
+    }
+
+    return () => {
+      clearInterval(interval)
     }
   }, [activeCycle])
 
@@ -58,6 +63,7 @@ export default function Home() {
 
     setCycles((state) => [...state, newCycle])
     setActiveCycleId(idNewCycle)
+    setAmountSecondsPassed(0)
     reset();
   }
 
@@ -76,7 +82,11 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Timer :: Home</title>
+        { activeCycle ? (
+          <title>{activeCycle.task} | {`${minutes}:${seconds}`}</title>
+        ) : (
+          <title>Timer :: Home</title>
+        )}
       </Head>
       <main className={styles.home}>
         <form onSubmit={handleSubmit(handleCreateNewCircle)}>
