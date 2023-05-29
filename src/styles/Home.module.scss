@@ -83,10 +83,9 @@
     }
   }
 
-  &__btn {
+  button {
     height: 4rem;
     width: 100%;
-    background-color: var(--primary-500);
     color: var(--gray-50);
 
     font-weight: 700;
@@ -107,8 +106,22 @@
       filter: brightness(.7);
     }
 
+    
+  }
+
+  &__btn_start {
+    background-color: var(--primary-500);
+
     &:not(:disabled):hover {
       background-color: var(--primary-700);
+    }
+  }
+
+  &__btn_stop  {
+    background-color: var(--red-500);
+
+    &:not(:disabled):hover {
+      filter: brightness(.8);
     }
   }
 }
