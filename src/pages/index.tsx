@@ -10,7 +10,7 @@ import { differenceInSeconds } from 'date-fns';
 
 const newCycleFormValidationSchema = zod.object({
   task: zod.string().min(1, 'Informe a tarefa'),
-  minutesAmount: zod.number().min(5).max(60)
+  minutesAmount: zod.number().max(60)
 })
 
 type NewCYcleFormData = zod.infer<typeof newCycleFormValidationSchema>
@@ -21,6 +21,7 @@ interface ICycle {
   minutesAmount: number;
   startDate: Date;
   interruptDate?: Date;
+  finishedDate?: Date;
 }
 
 export default function Home() {
@@ -28,21 +29,42 @@ export default function Home() {
   const [activeCycleId, setActiveCycleId] = useState<string | null>()
   const [amountSecondsPassed, setAmountSecondsPassed] = useState(0)
 
-  const activeCycle = cycles.find(cycle => cycle.id === activeCycleId)  
+  const activeCycle = cycles.find(cycle => cycle.id === activeCycleId)
+  const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0
 
   useEffect(() => {
     let interval: ReturnType<typeof setInterval>;
-
+    
     if (activeCycle) {
       interval = setInterval(() => {
-        setAmountSecondsPassed(differenceInSeconds(new Date(), activeCycle.startDate))
-      }, 1000)
+        const secondsDifference = differenceInSeconds(new Date(), activeCycle.startDate)
+        console.log(secondsDifference,totalSeconds)
+          if (secondsDifference >= totalSeconds) {
+            setCycles(state => state.map(cycle => {
+              if (activeCycleId === cycle.id) {
+                return {
+                  ...cycle,
+                  finishedDate: new Date()
+                }
+              } else {
+                return cycle
+              }
+            }))
+            setAmountSecondsPassed(totalSeconds)
+
+            clearInterval(interval)
+          } else {
+            setAmountSecondsPassed(secondsDifference)
+          }
+        }, 1000)
+      
+      
     }
 
     return () => {
       clearInterval(interval)
     }
-  }, [activeCycle])
+  }, [activeCycle, totalSeconds, activeCycleId])
 
   const { register, handleSubmit, watch, reset } = useForm<NewCYcleFormData>({
     resolver: zodResolver(newCycleFormValidationSchema),
@@ -86,7 +108,6 @@ export default function Home() {
   const task = watch('task')
   const isSubmitDisabled = !task
 
-  const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0
   const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0
 
   const minutesAmount = Math.floor(currentSeconds / 60)
