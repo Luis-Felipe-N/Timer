@@ -1,12 +1,15 @@
 import Head from 'next/head'
-import { useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod';
 import { HandPalm, Play } from '@phosphor-icons/react'
+
 import * as zod from 'zod'
 
+
 import styles from '@/styles/Home.module.scss'
-import { useEffect, useState } from 'react';
-import { differenceInSeconds } from 'date-fns';
+import { createContext, useState } from 'react';
+import { NewCycleForm } from '@/components/NewCycleForm';
+import { CountDown } from '@/components/CountDown';
 
 const newCycleFormValidationSchema = zod.object({
   task: zod.string().min(1, 'Informe a tarefa'),
@@ -14,6 +17,7 @@ const newCycleFormValidationSchema = zod.object({
 })
 
 type NewCYcleFormData = zod.infer<typeof newCycleFormValidationSchema>
+
 
 interface ICycle {
   id: string;
@@ -24,55 +28,51 @@ interface ICycle {
   finishedDate?: Date;
 }
 
+interface ICyclesContextType {
+  activeCycle: ICycle | undefined;
+  activeCycleId: String | null;
+  amountSecondsPassed: number;
+  cycles: ICycle[];
+  markCurrentCycleAsFinished: () => void;
+  updateAmountSecondsPassed: (value: number) => void;
+}
+
+export const CyclesContext = createContext({} as ICyclesContextType)
+
 export default function Home() {
   const [cycles, setCycles] = useState<ICycle[]>([])
-  const [activeCycleId, setActiveCycleId] = useState<string | null>()
+  const [activeCycleId, setActiveCycleId] = useState<string | null>(null)
   const [amountSecondsPassed, setAmountSecondsPassed] = useState(0)
 
-  const activeCycle = cycles.find(cycle => cycle.id === activeCycleId)
-  const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0
 
-  useEffect(() => {
-    let interval: ReturnType<typeof setInterval>;
-    
-    if (activeCycle) {
-      interval = setInterval(() => {
-        const secondsDifference = differenceInSeconds(new Date(), activeCycle.startDate)
-        console.log(secondsDifference,totalSeconds)
-          if (secondsDifference >= totalSeconds) {
-            setCycles(state => state.map(cycle => {
-              if (activeCycleId === cycle.id) {
-                return {
-                  ...cycle,
-                  finishedDate: new Date()
-                }
-              } else {
-                return cycle
-              }
-            }))
-            setAmountSecondsPassed(totalSeconds)
-
-            clearInterval(interval)
-          } else {
-            setAmountSecondsPassed(secondsDifference)
-          }
-        }, 1000)
-      
-      
-    }
-
-    return () => {
-      clearInterval(interval)
-    }
-  }, [activeCycle, totalSeconds, activeCycleId])
-
-  const { register, handleSubmit, watch, reset } = useForm<NewCYcleFormData>({
+  const newCycleForm = useForm<NewCYcleFormData>({
     resolver: zodResolver(newCycleFormValidationSchema),
     defaultValues: {
       task: '',
       minutesAmount: 0
     }
   })
+
+  const { register, handleSubmit, watch, reset } = newCycleForm
+
+  const activeCycle = cycles.find(cycle => cycle.id === activeCycleId)
+
+  function markCurrentCycleAsFinished() {
+    setCycles(state => state.map(cycle => {
+      if (activeCycleId === cycle.id) {
+        return {
+          ...cycle,
+          finishedDate: new Date()
+        }
+      } else {
+        return cycle
+      }
+    }))
+  }
+
+  function updateAmountSecondsPassed(value: number) {
+    setAmountSecondsPassed(value)
+  }
 
   function handleCreateNewCircle(data: NewCYcleFormData) {
     const idNewCycle = String(new Date().getTime())
@@ -81,7 +81,7 @@ export default function Home() {
       task: data.task,
       minutesAmount: data.minutesAmount,
       startDate: new Date()
-    }
+  }
 
 
     setCycles((state) => [...state, newCycle])
@@ -108,66 +108,29 @@ export default function Home() {
   const task = watch('task')
   const isSubmitDisabled = !task
 
-  const currentSeconds = activeCycle ? totalSeconds - amountSecondsPassed : 0
-
-  const minutesAmount = Math.floor(currentSeconds / 60)
-  const secondsAmount = currentSeconds % 60
-
-  const minutes = String(minutesAmount).padStart(2, '0')
-  const seconds = String(secondsAmount).padStart(2, '0')
   
   return (
-    <>
-      <Head>
-        { activeCycle ? (
-          <title>{activeCycle.task} | {`${minutes}:${seconds}`}</title>
-        ) : (
-          <title>Timer :: Home</title>
-        )}
-      </Head>
+    <CyclesContext.Provider value={{activeCycle, activeCycleId, amountSecondsPassed, cycles, markCurrentCycleAsFinished, updateAmountSecondsPassed}}>
       <main className={styles.home}>
         <form onSubmit={handleSubmit(handleCreateNewCircle)}>
-          <div className={styles.home__form}>
-            <label htmlFor="task">Vou trabalhar em</label>
-            <input 
-              id="task" 
-              placeholder='Dê um nome para o seu projeto'
-              {...register('task')}
-            />
+          <FormProvider {...newCycleForm}>
+            <NewCycleForm />
+          </FormProvider>
+          <CountDown />
 
-            <label htmlFor="minutesAmount">durante</label>
-            <input 
-              type="number" 
-              id="minutesAmount"
-              {...register('minutesAmount', {
-                valueAsNumber: true
-              })}
-              placeholder='00'
-
-            />
-
-            minutos.
-          </div>
-          <div className={styles.home__countdown}>
-            <span>{minutes[0]}</span>
-            <span>{minutes[1]}</span>
-            <span className={styles.separetor}>:</span>
-            <span>{seconds[0]}</span>
-            <span>{seconds[1]}</span>
-          </div>
           { activeCycle ? (
             <button className={styles.home__btn_stop} type="button" onClick={handleInterruptCycle}>
               <HandPalm size={24} />
               Interromper
             </button>
           ) : (
-            <button className={styles.home__btn_start} disabled={isSubmitDisabled}>
+            <button className={styles.home__btn_start}>
               <Play size={24} />
               Começar
             </button>
           )}
         </form>
       </main>
-    </>
+    </CyclesContext.Provider>
   )
 }

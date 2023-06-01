@@ -1,0 +1,37 @@
+.newCycleForm {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    gap: .5rem;
+    font-size: 1.25rem;
+    
+    input {
+      background-color: transparent;
+      border: 0;
+      border-bottom: 2px solid var(--gray-500);
+      font-size: 1.25rem;
+      outline: 0;
+      transition: .2s;
+      color: var(--gray-100);
+
+      &:focus {
+        border-color: var(--primary-500);
+      }
+
+      &::placeholder {
+        
+        color: var(--gray-500);
+      }
+
+      &:not(:last-child){
+        flex: 1;
+        // width: 100%;
+      }
+      &:last-child {
+        width: 4rem;
+      }
+    }
+  }
