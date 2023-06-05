@@ -1,14 +1,14 @@
-import { useContext, useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import styles from './styles.module.scss'
 import { differenceInSeconds } from 'date-fns'
-import { CyclesContext } from '@/pages'
+import { useCycles } from '@/hooks/useCycles'
 
 interface ICountDownProps {
     
 }
 
 export function CountDown({ }: ICountDownProps) {
-    const { activeCycle, activeCycleId, amountSecondsPassed, markCurrentCycleAsFinished, updateAmountSecondsPassed } = useContext(CyclesContext)
+    const { activeCycle, activeCycleId, amountSecondsPassed, markCurrentCycleAsFinished, updateAmountSecondsPassed } = useCycles()
     const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0;
 
 

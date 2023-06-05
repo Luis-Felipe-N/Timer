@@ -1,13 +1,10 @@
-import { CyclesContext } from '@/pages';
 import styles from './styles.module.scss'
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useContext } from 'react';
-import { useForm, useFormContext } from 'react-hook-form';
-import * as zod from 'zod'
+import {  useFormContext } from 'react-hook-form';
+import { useCycles } from '@/hooks/useCycles';
 
 export function NewCycleForm() {
-    const { activeCycleId } = useContext(CyclesContext)
+    const { activeCycleId } = useCycles()
     const { register } = useFormContext()
 
     return (

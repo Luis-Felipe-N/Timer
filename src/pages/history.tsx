@@ -2,10 +2,14 @@ import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/History.module.scss'
 import { StatusColors } from '@/components/History/StatusColors'
+import { useCycles } from '@/hooks/useCycles'
+import { formatDistanceToNow } from 'date-fns'
+import ptBR from 'date-fns/locale/pt-BR'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function History() {
+  const { cycles } = useCycles()
   return (
     <>
       <Head>
@@ -25,107 +29,36 @@ export default function History() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Conserto de débitos técnicos</td>
-                <td>25 minutos</td>
-                <td>Ha cerca de 2 horas</td>
-                <td>
-                  <StatusColors color='green'>
-                    Em andamento
-                  </StatusColors>
-                </td>
-              </tr>
-              <tr>
-                <td>Conserto de débitos técnicos</td>
-                <td>25 minutos</td>
-                <td>Ha cerca de 2 horas</td>
-                <td>
-                  <StatusColors color='green'>
-                    Em andamento
-                  </StatusColors>
-                </td>
-              </tr><tr>
-                <td>Conserto de débitos técnicos</td>
-                <td>25 minutos</td>
-                <td>Ha cerca de 2 horas</td>
-                <td>
-                  <StatusColors color='red'>
-                    Em andamento
-                  </StatusColors>
-                </td>
-              </tr><tr>
-                <td>Conserto de débitos técnicos</td>
-                <td>25 minutos</td>
-                <td>Ha cerca de 2 horas</td>
-                <td>
-                  <StatusColors color='red'>
-                    Em andamento
-                  </StatusColors>
-                </td>
-              </tr><tr>
-                <td>Conserto de débitos técnicos</td>
-                <td>25 minutos</td>
-                <td>Ha cerca de 2 horas</td>
-                <td>
-                  <StatusColors color='red'>
-                    Em andamento
-                  </StatusColors>
-                </td>
-              </tr><tr>
-                <td>Conserto de débitos técnicos</td>
-                <td>25 minutos</td>
-                <td>Ha cerca de 2 horas</td>
-                <td>
-                  <StatusColors color='yellow'>
-                    Em andamento
-                  </StatusColors>
-                </td>
-              </tr><tr>
-                <td>Conserto de débitos técnicos</td>
-                <td>25 minutos</td>
-                <td>Ha cerca de 2 horas</td>
-                <td>Em andamento</td>
-              </tr><tr>
-                <td>Conserto de débitos técnicos</td>
-                <td>25 minutos</td>
-                <td>Ha cerca de 2 horas</td>
-                <td>Em andamento</td>
-              </tr><tr>
-                <td>Conserto de débitos técnicos</td>
-                <td>25 minutos</td>
-                <td>Ha cerca de 2 horas</td>
-                <td>Em andamento</td>
-              </tr><tr>
-                <td>Conserto de débitos técnicos</td>
-                <td>25 minutos</td>
-                <td>Ha cerca de 2 horas</td>
-                <td>Em andamento</td>
-              </tr><tr>
-                <td>Conserto de débitos técnicos</td>
-                <td>25 minutos</td>
-                <td>Ha cerca de 2 horas</td>
-                <td>Em andamento</td>
-              </tr><tr>
-                <td>Conserto de débitos técnicos</td>
-                <td>25 minutos</td>
-                <td>Ha cerca de 2 horas</td>
-                <td>Em andamento</td>
-              </tr><tr>
-                <td>Conserto de débitos técnicos</td>
-                <td>25 minutos</td>
-                <td>Ha cerca de 2 horas</td>
-                <td>Em andamento</td>
-              </tr><tr>
-                <td>Conserto de débitos técnicos</td>
-                <td>25 minutos</td>
-                <td>Ha cerca de 2 horas</td>
-                <td>Em andamento</td>
-              </tr><tr>
-                <td>Conserto de débitos técnicos</td>
-                <td>25 minutos</td>
-                <td>Ha cerca de 2 horas</td>
-                <td>Em andamento</td>
-              </tr>
+              {cycles.map(cycle => (
+                <tr key={cycle.id}>
+                  <td>{ cycle.task }</td>
+                  <td>{ cycle.minutesAmount } minutos</td>
+                  <td>
+                    {
+                      formatDistanceToNow(cycle.startDate, {
+                        addSuffix: true,
+                        locale: ptBR
+                      })
+                    }
+                  </td>
+                  <td>
+
+                    { cycle.finishedDate ? (
+                      <StatusColors color='green'>
+                        Completo
+                      </StatusColors>
+                    ) : cycle.interruptDate ? (
+                      <StatusColors color='red'>
+                        Interrompido
+                      </StatusColors>
+                    ) : (
+                      <StatusColors color='yellow'>
+                        Em andamento
+                      </StatusColors>
+                    )}
+                  </td>
+                </tr>
+              )) }
             </tbody>
           </table>
         </div>
